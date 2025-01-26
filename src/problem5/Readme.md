@@ -31,7 +31,10 @@ git clone https://github.com/longtk26/Pham-Ngoc-Long.git
 ```bash
 cd Pham-Ngoc-Long/src/problem5
 ```
-### Step 3: Init environment
+### Step 3: Setup .env file
+When you are in `Pham-Ngoc-Long/src/problem5`. Create a `.env` file with the content follow in `.ex.env` file
+
+### Step 4: Init environment
 1. Run Postgres database
     ```bash
     make pre_env
@@ -43,7 +46,7 @@ cd Pham-Ngoc-Long/src/problem5
     - You can change 3 parameters above in docker-compose.yml file
 2. Migrate database
     ```bash
-    make migrateup
+    make migrateup name=init_db
     ```
     - This command will migrate up postgres database and create a table `products` with the schema that i provided above.
 3. Generate Prisma client 
@@ -51,8 +54,7 @@ cd Pham-Ngoc-Long/src/problem5
     make genclient
     ```
     - This command will generate prisma client to interact with database. The operations supported are Get, Create, Update and Delete
-### Step 4: Setup .env file
-When you are in `Pham-Ngoc-Long/src/problem5`. Create a `.env` file with the content follow in `.ex.env` file
+
 ### Step 5: Run application 🎇
 ```bash
 make start
