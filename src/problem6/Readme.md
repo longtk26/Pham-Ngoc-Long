@@ -1,46 +1,96 @@
-# Specification for API Service: Scoreboard Management
+# Score Update Module
+
+## Overview
+This module handles the real-time update of user scores and the scoreboard. It ensures that user actions leading to score updates are authenticated and prevents unauthorized or malicious activities. The updated scores are reflected live on the top 10 leaderboard.
 
 ---
 
-## 1. **Overview**
+## Features
+1. **Score Updates**: Updates the user's score when an action is completed.
+2. **Authentication**: Verifies user credentials using a middleware authentication service to ensure secure updates.
+3. **Top 10 Leaderboard**: Calculates and maintains the top 10 user scores.
+4. **Real-Time Updates**: Sends live updates of the leaderboard via a socket connection to the frontend.
+---
 
-This module is responsible for managing the scoreboard of users, displaying their scores on the website, and updating the scores when users complete actions that increase their scores. The scoreboard will show the top 10 users' scores in real-time. The API service will handle requests for score updates while ensuring that scores are only modified by legitimate actions.
+## Flow of Execution
+![Flow of excution](./imgs/image.png)
+### Step-by-Step Process
+1. **User Action**: A user completes an action.
+2. **Frontend Dispatch**: The frontend application sends an API request to the middleware authentication layer with the following:
+    - **Header**: Contains the Authorization Bearer token.
+    - **Payload**: Includes the action details.
+3. **Middleware Authentication**:
+    - Validates the user's token to confirm their identity.
+    - If authentication fails, the process terminates, and an error is returned.
+    - If successful, the payload is forwarded to the user service.
+4. **User Service**:
+    - Updates the user's score in the database.
+    - Recalculates the top 10 user scores.
+5. **Real-Time Update**:
+    - The updated top 10 leaderboard is sent back to the frontend using a socket connection.
+    - The frontend updates the leaderboard display for all users.
 
 ---
 
-## 2. **Software Requirements**
+## API Endpoints
+### **Update User Score**
+**Endpoint**: `/api/v1/score/update`
 
-1. **Scoreboard Display:**
-   - A leaderboard (top 10) will be displayed on the website showing users and their scores.
-   - The scores should update in real-time without requiring users to refresh the page.
+**Method**: `POST`
 
-2. **User Score Updates:**
-   - When a user completes an action, their score will increase, and an API call will be made to update the user's score on the server.
+**Headers**:
+```
+Authorization: Bearer <access_token>
+```
 
-3. **Security:**
-   - To ensure that scores cannot be maliciously increased, we will use proper authorization mechanisms such as JWT tokens to authenticate API calls and verify the legitimacy of the score update request.
-   - If the request is deemed unauthorized, it should be rejected with a proper error response.
+**Payload**:
+```json
+{
+  "action": "<action_detail>"
+}
+```
 
-4. **Real-Time Updates:**
-   - The server will notify all connected clients of any score changes to keep the scoreboard up-to-date in real time.
-   - The server will use WebSocket or a similar technology for broadcasting updates to the clients.
+**Response**:
+- **Success (200)**:
+```json
+{
+  "message": "Score updated successfully."
+}
+```
+- **Error (401)**:
+```json
+{
+  "error": "Unauthorized access."
+}
+```
+- **Error (500)**:
+```json
+{
+  "error": "Internal server error."
+}
+```
+
+
+## Security Considerations
+1. **Authentication**: All requests must include a valid Authorization Bearer token.
+2. **Rate Limiting**: Prevent spamming by limiting the number of API calls per minute.
+3. **Data Validation**: Ensure all payloads are validated to prevent injection attacks.
 
 ---
 
-## 3. **API Endpoints**
+## Error Handling
+1. **Invalid Token**: Return a 401 Unauthorized response if the token is invalid.
+2. **Database Failure**: Return a 500 Internal Server Error if updating scores or calculating the leaderboard fails.
 
-### 3.1. `POST /api/score/update`
+## Potential Improvements for Performance Enhancement
+1. Efficient Leaderboard Calculation
+- Current Approach: Recalculating the top 10 user scores on every score update.
+- Improvement: Implement a cached leaderboard that only updates when a user's score changes significantly enough to affect the top 10. This reduces database queries and computation.
+2. Database Optimization
+- Current Approach: Directly querying the database for every score update and leaderboard recalculation.
+- Improvement:
+  - Use batch updates to handle multiple score changes at once, - reducing database write operations.
+  - Index the score column in the database for faster leaderboard queries.
+  - Use a dedicated read-replica database for leaderboard queries to reduce load on the primary database.
 
-This endpoint will be responsible for updating the score of a user when they complete an action that increases their score.
 
-**Request:**
-
-- **Headers:**
-  - `Authorization: Bearer <JWT_TOKEN>`
-  
-- **Body:**
-  ```json
-  {
-    "user_id": "12345",      // The ID of the user whose score is being updated
-    "score_increment": 10    // The amount by which the user's score will increase
-  }
