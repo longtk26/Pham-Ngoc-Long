@@ -38,6 +38,21 @@ npm install
 ```
 ### Step 4: Setup .env file
 When you are in `Pham-Ngoc-Long/src/problem5`. Create a `.env` file with the content follow in `.ex.env` file
+<br/>
+
+You can quickly copy it below
+```bash
+PORT=8080
+
+# This was inserted by `prisma init`:
+# Environment variables declared in this file are automatically made available to Prisma.
+# See the documentation for more detail: https://pris.ly/d/prisma-schema#accessing-environment-variables-from-the-schema
+
+# Prisma supports the native connection string format for PostgreSQL, MySQL, SQLite, SQL Server, MongoDB and CockroachDB.
+# See the documentation for all the connection string options: https://pris.ly/d/connection-strings
+
+DATABASE_URL="postgresql://99tech:99tech@localhost:5432/99tech?schema=public"
+```
 
 ### Step 5: Init environment
 1. Run Postgres database
@@ -49,6 +64,7 @@ When you are in `Pham-Ngoc-Long/src/problem5`. Create a `.env` file with the con
     - Password: `99tech`
     - Database name: `99tech`   
     - You can change 3 parameters above in docker-compose.yml file
+    - Note: If you change parameters, you also need to change in `.env` file. For the best experience, encourage to keep all things as default.
 2. Migrate database
     ```bash
     make migrateup name=init_db
