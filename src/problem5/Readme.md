@@ -19,10 +19,15 @@ Ensure that `make` tools, `nodejs`, and `docker` are installed and running on yo
 <br/>
 You can verify their installation using the following commands:
 ```bash
-make --version
+make --version 
 docker --version
 node --version
 ```
+
+My versions:
+1. `make`: `4.3`
+2. `nodejs`: `v23.6.1`
+3. `docker`: `26.1.1`
 
 ### Step 1: Clone Github repository
 ```bash
