@@ -23,7 +23,9 @@ docker --version
 ```
 
 ### Step 1: Clone github repository
-
+```bash
+git clone https://github.com/longtk26/Pham-Ngoc-Long.git
+```
 ### Step 2: Redirect to problem5 folder using this command
 
 ```bash
