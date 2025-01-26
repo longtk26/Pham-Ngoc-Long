@@ -85,3 +85,13 @@ When the application started. You will see the output is
 Server is running on port http://localhost:8080
 ====Postgresql is connected====
 ```
+
+## Clean after existing application
+### Step 1: Stop application
+```bash
+Ctrl + C
+```
+## Step 2: Clean postgres database are run with docker
+```bash
+make down_env
+```
