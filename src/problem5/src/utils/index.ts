@@ -4,6 +4,5 @@ export const filterNoneValueObject = (obj: any) => {
             delete obj[key];
         }
     });
-    console.log(obj);
     return obj;
 }

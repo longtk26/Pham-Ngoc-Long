@@ -14,12 +14,13 @@ The server utilizes PostgreSQL as its database, Prisma ORM for seamless database
 ![schema](imgs/schema.png)
 
 ## How to run 🤔
-Ensure that you installed `make` tools and `docker` are running on your machine.
+Ensure that `make` tools, `nodejs` and `docker` are running on your machine.
 <br/>
-Check these tools are activating with these commands
+Check these tools are activating with commands:
 ```bash
 make --version
 docker --version
+node --version
 ```
 
 ### Step 1: Clone github repository
@@ -31,10 +32,14 @@ git clone https://github.com/longtk26/Pham-Ngoc-Long.git
 ```bash
 cd Pham-Ngoc-Long/src/problem5
 ```
-### Step 3: Setup .env file
+### Step 3: Install dependencies
+```bash
+npm install
+```
+### Step 4: Setup .env file
 When you are in `Pham-Ngoc-Long/src/problem5`. Create a `.env` file with the content follow in `.ex.env` file
 
-### Step 4: Init environment
+### Step 5: Init environment
 1. Run Postgres database
     ```bash
     make pre_env
@@ -55,12 +60,12 @@ When you are in `Pham-Ngoc-Long/src/problem5`. Create a `.env` file with the con
     ```
     - This command will generate prisma client to interact with database. The operations supported are Get, Create, Update and Delete
 
-### Step 5: Run application 🎇
+### Step 6: Run application 🎇
 ```bash
 make start
 ```
 When the application started. You will see the output is
 ```bash
 Server is running on port http://localhost:8080
-Postgresql is connected
+====Postgresql is connected====
 ```
