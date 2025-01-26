@@ -1,0 +1,13 @@
+version: '3.7'
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: 99tech
+      POSTGRES_PASSWORD: 99tech
+      POSTGRES_DB: 99tech
+    volumes:
+      - ./data/postgres:/var/lib/postgresql/data

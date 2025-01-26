@@ -1,0 +1,21 @@
+{
+  "name": "problem4",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest",
+    "dev": "node --import=tsx main.tsx"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "tsx": "^4.19.2"
+  },
+  "devDependencies": {
+    "@types/jest": "^29.5.14"
+  }
+}
