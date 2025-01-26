@@ -1,12 +1,15 @@
 import prismaClient from "../../config/prisma";
-import { CreateProductRepoType, FilterProductRepoType, UpdateProductRepoType } from "./product.type";
+import { BadRequestError } from "../../core/error.response";
+import { CreateProductRepoType, FilterCondition, FilterProductRepoType, UpdateProductRepoType } from "./product.type";
 
 export const createProduct = async (product: CreateProductRepoType): Promise<number> => {
+    
     const newProduct = await prismaClient.products.create({
         data: product
     })
 
     return newProduct.id
+
 }
 
 export const getProductById = async (id: number) => {
@@ -20,8 +23,29 @@ export const getProductById = async (id: number) => {
 }
 
 export const getProductsByFilter = async (filter: FilterProductRepoType) => {
+    const condition = Object.keys(filter).reduce<FilterCondition>((acc, key) => {
+        if (key === "name" && filter.name) {
+            acc.name = {
+                contains: filter.name,
+            };
+        }
+
+        if (key === "maxPrice" && filter.maxPrice) {
+            acc.price = {
+                lte: filter.maxPrice,
+            };
+        }
+
+        if (key === "type" && filter.type) {
+            acc.type = {
+                contains: filter.type,
+            };
+        }
+        return acc;
+    }, {})
+
     const foundProducts = await prismaClient.products.findMany({
-        where: filter
+        where: condition
     })
 
     return foundProducts

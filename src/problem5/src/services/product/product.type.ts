@@ -19,5 +19,5 @@ export type UpdateProductType = {
 export type FilterProductType = {
     name?: string,
     type?: string,
-    stock?: number,
+    maxPrice?: number,
 }

@@ -9,10 +9,21 @@ export type CreateProductRepoType = {
 
 export type FilterProductRepoType = {
     name?: string,
-    price?: number,
+    maxPrice?: number,
     type?: string,
-    stock?: number,
 }
+
+export type FilterCondition = {
+    name?: {
+      contains: string;
+    };
+    price?: {
+      lte: number;
+    };
+    type?: {
+      contains: string;
+    };
+  }
 
 export type UpdateProductRepoType = {
     id: number,
